@@ -19,7 +19,7 @@ namespace Mod
         public override void Render()
         {
             float scale = 1f - (this.wiggler.Value * 0.3f);
-            Draw.OutlineTextCentered(TFGame.Font, "8 PLAYER EDITION", base.Position + new Vector2(30f, -50f), Color.White, Color.Black);
+            Draw.OutlineTextCentered(TFGame.Font, "FILTHY CASUAL EDITION", base.Position + new Vector2(30f, -50f), Color.White, Color.Black);
             if (TFGame.PlayerInputs[0] is KeyboardInput)
             {
                 PlayerInput input = TFGame.PlayerInputs[0];

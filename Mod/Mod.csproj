@@ -62,6 +62,11 @@
     <Compile Include="Level.cs" />
     <Compile Include="MatchSettings.cs" />
     <Compile Include="MatchTeams.cs" />
+    <Compile Include="MyStuff\BoltArrow.cs" />
+    <Compile Include="MyStuff\MatchVariants.cs" />
+    <Compile Include="MyStuff\PlayerCorpse.cs" />
+    <Compile Include="MyStuff\PlayerGhost.cs" />
+    <Compile Include="MyStuff\TeamReviver.cs" />
     <Compile Include="PauseMenu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PressStartText.cs" />
