@@ -62,11 +62,7 @@ namespace Mod
 
 		public void RespawnGhost()
 		{
-			if (this.PlayerIndex != -1 && base.Level.Session.MatchSettings.Variants.ReturnAsGhosts[this.PlayerIndex] && ((MyMatchVariants)this.Level.Session.MatchSettings.Variants).GhostsRespawn)
-			{
-				base.ghostCoroutine = new Monocle.Coroutine(base.GhostSpawnSequence());
-			}
+			base.ghostCoroutine = new Monocle.Coroutine(base.GhostSpawnSequence());
 		}
-
 	}
 }

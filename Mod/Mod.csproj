@@ -67,6 +67,7 @@
     <Compile Include="MyStuff\PlayerCorpse.cs" />
     <Compile Include="MyStuff\PlayerGhost.cs" />
     <Compile Include="MyStuff\TeamReviver.cs" />
+    <Compile Include="MyStuff\Variant.cs" />
     <Compile Include="PauseMenu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PressStartText.cs" />

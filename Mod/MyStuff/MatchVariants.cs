@@ -12,10 +12,17 @@ namespace Mod
 	[Patch]
 	public class MyMatchVariants : MatchVariants
 	{
-		public Variant WeakPrismArrows;
-		public Variant WeakBoltArrows;
-		public Variant RedRover;
-		public Variant ThreeSpookyFiveMe;
-		public Variant GhostsRespawn;
+		public MyVariant WeakPrismArrows;
+		public MyVariant WeakBoltArrows;
+		public MyVariant RedRover;
+		public MyVariant ThreeSpookyFiveMe;
+		public MyVariant GhostsRespawn;
+
+		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
+		{
+			TriggerCorpses.Links.Remove(ReturnAsGhosts);
+			ExplodingCorpses.Links.Remove(ReturnAsGhosts);
+			ReturnAsGhosts.Links.Remove(TriggerCorpses);
+		}
 	}
 }
