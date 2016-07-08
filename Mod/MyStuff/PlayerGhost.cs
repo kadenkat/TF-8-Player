@@ -14,9 +14,35 @@ namespace Mod
 	[Patch]
 	public class MyPlayerGhost : PlayerGhost
 	{
-		//
-		// ALLOW TRIGGER CORPSES AND GHOSTS SIMULTANEOUSLY
-		//
+		public struct GraphicProperties
+		{
+			public Vector2 Position;
+			public Vector2 Origin;
+			public Vector2 Scale;
+			public float Zoom;
+			public float Rotation;
+			//public Color Color;
+
+			public void SaveProperties(GraphicsComponent graphic)
+			{
+				Position = graphic.Position;
+				Origin = graphic.Origin;
+				Scale = graphic.Scale;
+				Zoom = graphic.Zoom;
+				Rotation = graphic.Rotation;
+				//Color = graphic.Color;
+			}
+
+			public static void RestoreProperties(GraphicsComponent graphic, GraphicProperties properties)
+			{
+				graphic.Position = properties.Position;
+				graphic.Origin = properties.Origin;
+				graphic.Scale = properties.Scale;
+				graphic.Zoom = properties.Zoom;
+				graphic.Rotation = properties.Rotation;
+				//graphic.Color = properties.Color;
+			}
+		}
 
 		MyPlayerCorpse ownerCorpse;
 		int characterIndex;
