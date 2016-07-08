@@ -65,7 +65,6 @@
     <Compile Include="MyStuff\Arrow.cs" />
     <Compile Include="MyStuff\BoltArrow.cs" />
     <Compile Include="MyStuff\MatchVariants.cs" />
-    <Compile Include="MyStuff\Scene.cs" />
     <Compile Include="MyStuff\PlayerCorpse.cs" />
     <Compile Include="MyStuff\PlayerGhost.cs" />
     <Compile Include="MyStuff\TeamReviver.cs" />

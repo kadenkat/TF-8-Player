@@ -21,7 +21,6 @@ namespace Mod
 			public Vector2 Scale;
 			public float Zoom;
 			public float Rotation;
-			//public Color Color;
 
 			public void SaveProperties(GraphicsComponent graphic)
 			{
@@ -30,7 +29,6 @@ namespace Mod
 				Scale = graphic.Scale;
 				Zoom = graphic.Zoom;
 				Rotation = graphic.Rotation;
-				//Color = graphic.Color;
 			}
 
 			public static void RestoreProperties(GraphicsComponent graphic, GraphicProperties properties)
@@ -40,7 +38,6 @@ namespace Mod
 				graphic.Scale = properties.Scale;
 				graphic.Zoom = properties.Zoom;
 				graphic.Rotation = properties.Rotation;
-				//graphic.Color = properties.Color;
 			}
 		}
 
@@ -128,10 +125,10 @@ namespace Mod
 				return;
 			}
 
-			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).GhostsRespawn)
+			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).ArcherGhosts)
 				StealArrow(player);
 
-			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).ThreeSpookyFiveMe)
+			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).TouchyGhosts)
 			{
 				player.Speed = (player.Position - this.Position).SafeNormalize(4.5f);
 				this.Speed = (this.Position - player.Position).SafeNormalize(3.0f);

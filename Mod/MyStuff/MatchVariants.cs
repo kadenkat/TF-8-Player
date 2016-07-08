@@ -14,9 +14,13 @@ namespace Mod
 	{
 		public MyVariant WeakPrismArrows;
 		public MyVariant WeakBoltArrows;
+
 		public MyVariant RedRover;
-		public MyVariant ThreeSpookyFiveMe;
+
 		public MyVariant GhostsRespawn;
+		public MyVariant ThreeSpookyFiveMe;
+		public MyVariant TouchyGhosts;
+		public MyVariant ArcherGhosts;
 
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
