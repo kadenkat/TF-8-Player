@@ -19,12 +19,66 @@ namespace Mod
 		//
 
 		MyPlayerCorpse ownerCorpse;
-		bool hasArrow;
-		ArrowTypes stolenArrowType;
+		int characterIndex;
+		public CharacterSounds archerSounds;
+		public ArrowTypes ghostArrow = ArrowTypes.Toy;
+		public bool hasArrow = false;
+		public GraphicProperties haloProperties;
+		public WrapHitbox arrowPickupHitbox;
 
 		public MyPlayerGhost(PlayerCorpse corpse) : base(corpse)
 		{
 			ownerCorpse = (MyPlayerCorpse)corpse;
+			characterIndex = ownerCorpse.PlayerIndex;
+			archerSounds = TowerFall.ArcherData.Archers[characterIndex].SFX;
+			haloProperties.SaveProperties(halo);
+
+			this.arrowPickupHitbox = new WrapHitbox(22f, 30f, -11f, -16f);
+		}
+
+		public void AddArrow(ArrowTypes arrowType, SFX sound)
+		{
+			this.halo.Position = new Vector2(0f, -12f);
+			this.halo.Zoom = haloProperties.Zoom * 1.5f;
+			this.halo.Rotation = 1f;
+
+			this.sprite.Play("happy", false);
+			
+			ghostArrow = arrowType;
+			sound.Play(base.X, 1f);
+			hasArrow = true;
+		}
+
+		public bool CollectArrow(ArrowTypes arrowType)
+		{
+			if ((sprite.CurrentAnimID == "normal") && (hasArrow == false))
+			{
+				AddArrow(arrowType, archerSounds.ArrowRecover);
+				return true;
+			}
+			return false;
+		}
+
+		public void StealArrow(Player victim)
+		{
+			if ((hasArrow == false) && (victim.Arrows.HasArrows))
+			{
+				AddArrow(victim.Arrows.UseArrow(), victim.ArcherData.SFX.ArrowSteal);
+			}
+		}
+
+		public void ShootArrow()
+		{
+			if (hasArrow == true)
+			{
+				archerSounds.FireArrow.Play(this.X, 1f);
+				Arrow arrow = Arrow.Create(ghostArrow, this, this.Position + Player.ArrowOffset, this.Speed.Angle(), characterIndex, characterIndex);
+				((MyLevel)base.Level).AddEntity(arrow);
+				ghostArrow = ArrowTypes.Toy;
+				GraphicProperties.RestoreProperties(halo, haloProperties);
+				this.sprite.Play("normal", false);
+				hasArrow = false;
+			}
 		}
 
 		public override bool OnArrowHit(Arrow arrow)
@@ -37,14 +91,7 @@ namespace Mod
 
 		public override void DodgeEnter()
 		{
-			if(hasArrow)
-			{
-				Arrow arrow = Arrow.Create(stolenArrowType, this, this.Position + Player.ArrowOffset, this.Speed.Angle(), null, null);
-				//(Engine.Instance.Scene as Level).Add<Arrow>(arrow);
-				//stolenArrow.Level.Add<Arrow>(arrow);
-				//stolenArrow = null;
-			}
-
+			ShootArrow();
 			base.DodgeEnter();
 		}
 
@@ -54,29 +101,17 @@ namespace Mod
 			{
 				return;
 			}
+
+			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).GhostsRespawn)
+				StealArrow(player);
+
 			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).ThreeSpookyFiveMe)
 			{
-				this.sprite.Play("happy", false);
 				player.Speed = (player.Position - this.Position).SafeNormalize(4.5f);
 				this.Speed = (this.Position - player.Position).SafeNormalize(3.0f);
 			}
-			else if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).GhostsRespawn)
-			{
-				if (hasArrow == false)
-				{
-					this.sprite.Play("happy", false);
-					stolenArrowType = player.Arrows.UseArrow();
-					hasArrow = true;
-					player.ArcherData.SFX.ArrowSteal.Play(base.X, 1f);
-				}
-				player.Speed = (player.Position - this.Position).SafeNormalize(3.2f);
-				this.Speed = (this.Position - player.Position).SafeNormalize(3.0f);
-			}
 			else
-			{
 				base.OnPlayerTouch(player);
-			}
-			
 		}
 
 		public override void Die(int killerIndex, Arrow arrow = null, Explosion explosion = null, ShockCircle shock = null)
@@ -89,6 +124,24 @@ namespace Mod
 				ownerCorpse.RespawnGhost();
 			}
 			base.Die(killerIndex, arrow, explosion, shock);
+		}
+
+		public override void Update()
+		{
+			base.Update();
+
+			if ((this.Collidable) && (base.State != 0) && (sprite.CurrentAnimID != "spawn"))
+			{
+				Monocle.Collider collider = base.Collider;
+				base.Collider = collider;
+				base.Collider = this.arrowPickupHitbox;
+				Monocle.Entity entity = base.CollideFirst(Monocle.GameTags.Arrow);
+				if ((entity != null) && (entity as Arrow))
+				{
+					((MyArrow)entity).OnGhostCollect(this, false);
+				}
+				base.Collider = collider;
+			}
 		}
 	}
 }

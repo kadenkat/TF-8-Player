@@ -23,5 +23,11 @@ namespace Mod
                 this.controllerAttachedFlags[i] = true;
             }
         }
-    }
+
+		public Entity AddEntity(Entity entity)
+		{
+			base.Layers[entity.LayerIndex].Add(entity, false);
+			return entity;
+		}
+	}
 }
