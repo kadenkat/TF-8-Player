@@ -706,11 +706,11 @@
     <SubTexture name="variants/weakAutobalance" x="1860" y="1076" width="14" height="14"/>
 	<SubTexture name="variants/weakPrismArrows" x="2017" y="1018" width="14" height="14"/>
 	<SubTexture name="variants/weakBoltArrows" x="1876" y="1044" width="14" height="14"/>
-	<SubTexture name="variants/redRover" x="1988" y="1034" width="14" height="14"/>
-	<SubTexture name="variants/ghostsRespawn" x="1995" y="1002" width="14" height="14"/>
-    <SubTexture name="variants/threeSpookyFiveMe" x="1995" y="1002" width="14" height="14"/>
-	<SubTexture name="variants/archerGhosts" x="1995" y="1002" width="14" height="14"/>
-	<SubTexture name="variants/touchyGhosts" x="1995" y="1002" width="14" height="14"/>
+	<SubTexture name="variants/redRover" x="1969" y="2032" width="14" height="14"/>
+	<SubTexture name="variants/ghostsRespawn" x="1985" y="2032" width="14" height="14"/>
+	<SubTexture name="variants/archerGhosts" x="2033" y="2032" width="14" height="14"/>
+	<SubTexture name="variants/cuddlyGhosts" x="2001" y="2032" width="14" height="14"/>
+	<SubTexture name="variants/threeSpookyFiveMe" x="2017" y="2032" width="14" height="14"/>
     <SubTexture name="versusResults/bg" x="476" y="1173" width="74" height="200"/>
     <SubTexture name="versusResults/winnerbg" x="2" y="1828" width="74" height="200"/>
     <SubTexture name="vortexLevelBlock" x="1138" y="1250" width="30" height="30"/>

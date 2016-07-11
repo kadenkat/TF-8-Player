@@ -63,18 +63,33 @@ namespace Mod
 		{
 			this.halo.Position = new Vector2(0f, -12f);
 			this.halo.Zoom = haloProperties.Zoom * 1.5f;
-			this.halo.Rotation = 1f;
+			this.halo.Rotation = 1.5f;
 
-			this.sprite.Play("happy", false);
+			if(this.sprite.CurrentAnimID == "normal")
+				this.sprite.Play("happy", false);
 			
 			ghostArrow = arrowType;
 			sound.Play(base.X, 1f);
 			hasArrow = true;
 		}
 
+		public void DropArrow()
+		{
+			if (hasArrow == true)
+			{
+				Arrow arrow = Arrow.Create(ghostArrow, this, this.Position, Monocle.Calc.Random.Range(-2.3561945f, 1.57079637f), characterIndex, characterIndex);
+				arrow.Drop((-(int)this.Facing));
+				((MyLevel)base.Level).AddEntity(arrow);
+				GraphicProperties.RestoreProperties(halo, haloProperties);
+				hasArrow = false;
+			}
+		}
+
 		public bool CollectArrow(ArrowTypes arrowType)
 		{
-			if ((sprite.CurrentAnimID == "normal") && (hasArrow == false))
+			if ((((MyMatchVariants)this.Level.Session.MatchSettings.Variants).ArcherGhosts)
+				&& (sprite.CurrentAnimID != "dodge")
+				&& (hasArrow == false))
 			{
 				AddArrow(arrowType, archerSounds.ArrowRecover);
 				return true;
@@ -84,7 +99,9 @@ namespace Mod
 
 		public void StealArrow(Player victim)
 		{
-			if ((hasArrow == false) && (victim.Arrows.HasArrows))
+			if ((((MyMatchVariants)this.Level.Session.MatchSettings.Variants).ArcherGhosts)
+				&& (hasArrow == false)
+				&& (victim.Arrows.HasArrows))
 			{
 				AddArrow(victim.Arrows.UseArrow(), victim.ArcherData.SFX.ArrowSteal);
 			}
@@ -97,7 +114,6 @@ namespace Mod
 				archerSounds.FireArrow.Play(this.X, 1f);
 				Arrow arrow = Arrow.Create(ghostArrow, this, this.Position + Player.ArrowOffset, this.Speed.Angle(), characterIndex, characterIndex);
 				((MyLevel)base.Level).AddEntity(arrow);
-				ghostArrow = ArrowTypes.Toy;
 				GraphicProperties.RestoreProperties(halo, haloProperties);
 				this.sprite.Play("normal", false);
 				hasArrow = false;
@@ -121,14 +137,11 @@ namespace Mod
 		public override void OnPlayerTouch(Player player)
 		{
 			if (base.State == 0)
-			{
 				return;
-			}
 
-			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).ArcherGhosts)
-				StealArrow(player);
+			StealArrow(player);
 
-			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).TouchyGhosts)
+			if (((MyMatchVariants)this.Level.Session.MatchSettings.Variants).CuddlyGhosts)
 			{
 				player.Speed = (player.Position - this.Position).SafeNormalize(4.5f);
 				this.Speed = (this.Position - player.Position).SafeNormalize(3.0f);
@@ -146,6 +159,7 @@ namespace Mod
 			{
 				ownerCorpse.RespawnGhost();
 			}
+			DropArrow();
 			base.Die(killerIndex, arrow, explosion, shock);
 		}
 
@@ -153,7 +167,10 @@ namespace Mod
 		{
 			base.Update();
 
-			if ((this.Collidable) && (base.State != 0) && (sprite.CurrentAnimID != "spawn"))
+			//if ((this.sprite.CurrentAnimID == "normal") && (hasArrow))
+			//	this.sprite.Play("happy", false);
+
+			if (this.Collidable)
 			{
 				Monocle.Collider collider = base.Collider;
 				base.Collider = collider;

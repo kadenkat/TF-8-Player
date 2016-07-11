@@ -18,9 +18,9 @@ namespace Mod
 		public MyVariant RedRover;
 
 		public MyVariant GhostsRespawn;
-		public MyVariant ThreeSpookyFiveMe;
-		public MyVariant TouchyGhosts;
+		public MyVariant CuddlyGhosts;
 		public MyVariant ArcherGhosts;
+		public MyVariant ThreeSpookyFiveMe;
 
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
